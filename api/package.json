@@ -4,13 +4,16 @@
   "description": "Source code for the CodePush service API",
   "main": "./script/server.js",
   "scripts": {
+    "deploy": "npm run build && npm run zip && npm run deploy:az",
     "start": "node ./bin/script/server.js",
     "start:env": "node -r dotenv/config ./bin/script/server.js dotenv_config_path=.env dotenv_config_silent=true",
     "clean": "rimraf bin",
     "build": "tsc && shx cp -r ./script/views ./bin/script",
     "prettier": "prettier --write \"./**/*.ts\"",
     "lint": "npx eslint ./script/**/*.ts",
-    "lint:fix": "npx eslint ./script/**/*.ts --fix"
+    "lint:fix": "npx eslint ./script/**/*.ts --fix",
+    "zip": "zip -r app.zip bin package.json node_modules",
+    "deploy:az": "az webapp deployment source config-zip --resource-group CodePushResources --name codepush-omniwepos --src app.zip"
   },
   "repository": {
     "type": "git",
